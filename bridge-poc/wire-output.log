@@ -1,0 +1,21 @@
+bigint: Failed to load bindings, pure JS will be used (try npm run rebuild?)
+bigint: Failed to load bindings, pure JS will be used (try npm run rebuild?)
+[32minfo[39m:    No environment-based keypair found. Found keypair at default path => 5Y3bBmXAzY8ZsCWPNHfvoR5KvXQhDa8xyyzbzxa9N6gE
+[?25l[2K[1G[36m?[39m [1mDefaulting to ~/.config/solana/id.json with address 5Y3bBmXAzY8ZsCWPNHfvoR5KvXQhDa8xyyzbzxa9N6gE. Use this keypair?[22m [90m›[39m [90m(Y/n)[39m[2K[1G[2K[1G[32m✔[39m [1mDefaulting to ~/.config/solana/id.json with address 5Y3bBmXAzY8ZsCWPNHfvoR5KvXQhDa8xyyzbzxa9N6gE. Use this keypair?[22m [90m…[39m yes
+[?25h[31mError:[0m SOLANA_DEPLOYMENT_NOT_FOUND
+[32mFix suggestion:[0m Did you run `npx hardhat lz:oapp:solana:create` ?
+[34mElaboration:[0m The Solana deployment file is required to run config tasks. The default path is ./deployments/solana-<mainnet/testnet>/OApp.json
+
+An unexpected error occurred:
+
+Error: Failed to load OApp configuration: Unable to read config file 'layerzero.config.ts': Error: Could not find Solana deployment file for eid 40168 at: deployments/solana-testnet/OApp.json
+    at findSolanaEndpointIdInGraph (/home/pho3nix/Projects/colosseum/bridge-poc/tasks/solana/utils.ts:27:19)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async OverriddenTaskDefinition._action (/home/pho3nix/Projects/colosseum/bridge-poc/tasks/common/wire.ts:79:27)
+    at async Environment._runTaskDefinition (/home/pho3nix/Projects/colosseum/bridge-poc/node_modules/.pnpm/hardhat@2.29.1_bufferutil@4.1.0_ts-node@10.9.2_@types+node@18.18.14_typescript@5.9.3__t_2a938543c0fe0394c3dd564c73a3b21b/node_modules/hardhat/src/internal/core/runtime-environment.ts:351:14)
+    at async Environment.run (/home/pho3nix/Projects/colosseum/bridge-poc/node_modules/.pnpm/hardhat@2.29.1_bufferutil@4.1.0_ts-node@10.9.2_@types+node@18.18.14_typescript@5.9.3__t_2a938543c0fe0394c3dd564c73a3b21b/node_modules/hardhat/src/internal/core/runtime-environment.ts:184:14)
+    at async main (/home/pho3nix/Projects/colosseum/bridge-poc/node_modules/.pnpm/hardhat@2.29.1_bufferutil@4.1.0_ts-node@10.9.2_@types+node@18.18.14_typescript@5.9.3__t_2a938543c0fe0394c3dd564c73a3b21b/node_modules/hardhat/src/internal/cli/cli.ts:325:7)
+(node:115223) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///home/pho3nix/Projects/colosseum/bridge-poc/layerzero.config.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /home/pho3nix/Projects/colosseum/bridge-poc/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
