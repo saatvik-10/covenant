@@ -34,4 +34,10 @@ pub mod covenant {
     ) ->Result<()> {
         instructions::receive_verdict::handler(ctx, passed)
     }
+
+    pub fn settle(
+        ctx: Context<SettleCovenant>
+    ) -> Result<()> {
+        instructions::settle::handler(ctx)
+    }
 }
