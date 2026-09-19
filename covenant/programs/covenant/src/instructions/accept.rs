@@ -1,6 +1,8 @@
-use anchor_lang::{prelude::*, system_program};
+use anchor_lang::{prelude::*};
 use crate::state::{Covenant, CovenantStatus};
 use crate::errors::CovenantError;
+use anchor_spl::token::{self, Token, TokenAccount, Mint, Transfer};
+use anchor_spl::associated_token::AssociatedToken;
 
 #[derive(Accounts)]
 pub struct AcceptCovenant<'info> {
@@ -15,23 +17,36 @@ pub struct AcceptCovenant<'info> {
     )]
     pub covenant: Account<'info, Covenant>,
 
+    pub collateral_mint: Account<'info, Mint>,
+
     #[account(
         mut,
-        seeds = [b"covenant", covenant.key().as_ref()] ,
-        bump
+        associated_token::mint = collateral_mint,
+        associated_token::authority = executor,
     )]
-    pub collateral_vault: UncheckedAccount<'info>,
+    pub executor_token_account: Account<'info, TokenAccount>,
 
-    pub system_program: Program<'info, System>
+    #[account(
+        init,
+        payer = executor,
+        associated_token::mint = collateral_mint,
+        associated_token::authority = covenant,
+    )]
+    pub collateral_vault: Account<'info, TokenAccount>,
+
+    pub token_program: Program<'info, Token>,
+    pub associated_token_program: Program<'info, AssociatedToken>,
+    pub system_program: Program<'info, System>,
 }
 
 pub fn handler(ctx: Context<AcceptCovenant>, collateral_amount: u64) -> Result<()> {
-    system_program::transfer (
-        CpiContext::new (
-            ctx.accounts.system_program.key(),
-            system_program::Transfer {
-                from:ctx.accounts.executor.to_account_info(),
+    token::transfer(
+        CpiContext::new(
+            ctx.accounts.token_program.key(),
+            Transfer {
+                from: ctx.accounts.executor_token_account.to_account_info(),
                 to: ctx.accounts.collateral_vault.to_account_info(),
+                authority: ctx.accounts.executor.to_account_info(),
             },
         ),
         collateral_amount,
@@ -43,6 +58,6 @@ pub fn handler(ctx: Context<AcceptCovenant>, collateral_amount: u64) -> Result<(
     covenant.status = CovenantStatus::Accepted;
 
     msg!("Covenant accepted by {}, collateral={}", covenant.executor, collateral_amount);
-
+    
     Ok(())
 }
