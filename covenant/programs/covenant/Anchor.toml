@@ -9,7 +9,7 @@ skip-lint = false
 covenant = "BasyCwQqrLFVAXPrcL6LNE2t1YLxVRM4tM5ZnRAAhFUs"
 
 [provider]
-cluster = "localnet"
+cluster = "devnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
