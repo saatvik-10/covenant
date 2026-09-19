@@ -72,11 +72,11 @@ const config: HardhatUserConfig = {
             // Need this for testing because TestHelperOz5.sol is exceeding the compiled contract size limit
             allowUnlimitedContractSize: true,
         },
-        'hyperliquid-testnet': {
-            eid: EndpointId.HYPERLIQUID_V2_TESTNET, // 40362
-            url: 'https://rpc.hyperliquid-testnet.xyz/evm',
-            accounts,
-        },
+        // 'hyperliquid-testnet': {
+        //     eid: EndpointId.HYPERLIQUID_V2_TESTNET, // 40362
+        //     url: 'https://rpc.hyperliquid-testnet.xyz/evm',
+        //     accounts,
+        // },
     },
     namedAccounts: {
         deployer: {
