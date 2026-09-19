@@ -1,8 +1,8 @@
-use anchor_lang::{prelude::*};
-use crate::state::{Covenant, CovenantStatus};
 use crate::errors::CovenantError;
-use anchor_spl::token::{self, Token, TokenAccount, Mint, Transfer};
+use crate::state::{Covenant, CovenantStatus};
+use anchor_lang::prelude::*;
 use anchor_spl::associated_token::AssociatedToken;
+use anchor_spl::token::{self, Mint, Token, TokenAccount, Transfer};
 
 #[derive(Accounts)]
 pub struct AcceptCovenant<'info> {
@@ -57,7 +57,11 @@ pub fn handler(ctx: Context<AcceptCovenant>, collateral_amount: u64) -> Result<(
     covenant.collateral_amount = collateral_amount;
     covenant.status = CovenantStatus::Accepted;
 
-    msg!("Covenant accepted by {}, collateral={}", covenant.executor, collateral_amount);
-    
+    msg!(
+        "Covenant accepted by {}, collateral={}",
+        covenant.executor,
+        collateral_amount
+    );
+
     Ok(())
 }

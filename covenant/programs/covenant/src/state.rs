@@ -20,7 +20,7 @@ impl Covenant {
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, Copy, PartialEq, Eq, InitSpace)]
 pub enum CovenantStatus {
-    Open,  
+    Open,
     Accepted,
     Settled,
 }

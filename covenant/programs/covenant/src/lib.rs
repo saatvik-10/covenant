@@ -1,8 +1,8 @@
 use anchor_lang::prelude::*;
 
-mod state;
 mod errors;
 mod instructions;
+mod state;
 
 use instructions::*;
 
@@ -21,23 +21,15 @@ pub mod covenant {
         instructions::create::handler(ctx, constraint_hash, compensation_cap, deadline)
     }
 
-    pub fn accept_covenant(
-        ctx: Context<AcceptCovenant>,
-        collateral_amount: u64
-    ) -> Result<()> {
+    pub fn accept_covenant(ctx: Context<AcceptCovenant>, collateral_amount: u64) -> Result<()> {
         instructions::accept::handler(ctx, collateral_amount)
     }
 
-    pub fn receive_verdict(
-        ctx: Context<ReceiveVerdict>,
-        passed: bool
-    ) ->Result<()> {
+    pub fn receive_verdict(ctx: Context<ReceiveVerdict>, passed: bool) -> Result<()> {
         instructions::receive_verdict::handler(ctx, passed)
     }
 
-    pub fn settle(
-        ctx: Context<SettleCovenant>
-    ) -> Result<()> {
+    pub fn settle(ctx: Context<SettleCovenant>) -> Result<()> {
         instructions::settle::handler(ctx)
     }
 }

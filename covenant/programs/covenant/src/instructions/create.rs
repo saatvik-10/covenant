@@ -1,6 +1,6 @@
-use anchor_lang::prelude::*;
-use crate::state::{Covenant, CovenantStatus};
 use crate::errors::CovenantError;
+use crate::state::{Covenant, CovenantStatus};
+use anchor_lang::prelude::*;
 
 #[derive(Accounts)]
 #[instruction(constraint_hash: [u8; 32])]
@@ -27,8 +27,11 @@ pub fn handler(
     deadline: i64,
 ) -> Result<()> {
     let clock = Clock::get()?;
-    
-    require!(deadline > clock.unix_timestamp, CovenantError::DeadlinePassed);
+
+    require!(
+        deadline > clock.unix_timestamp,
+        CovenantError::DeadlinePassed
+    );
 
     let covenant = &mut ctx.accounts.covenant;
 
@@ -42,7 +45,11 @@ pub fn handler(
     covenant.verdict = None;
     covenant.bump = ctx.bumps.covenant;
 
-    msg!("Covenant created: hash={:?}, deadline={}", constraint_hash, deadline);
+    msg!(
+        "Covenant created: hash={:?}, deadline={}",
+        constraint_hash,
+        deadline
+    );
 
     Ok(())
 }

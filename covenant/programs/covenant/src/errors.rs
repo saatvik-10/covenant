@@ -22,7 +22,7 @@ pub enum CovenantError {
 
     #[msg("Covenant is already settled")]
     AlreadySettled,
-    
+
     #[msg("Constraint hash does not match")]
     ConstraintHashMismatch,
 }
