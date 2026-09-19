@@ -27,4 +27,11 @@ pub mod covenant {
     ) -> Result<()> {
         instructions::accept::handler(ctx, collateral_amount)
     }
+
+    pub fn receive_verdict(
+        ctx: Context<ReceiveVerdict>,
+        passed: bool
+    ) ->Result<()> {
+        instructions::receive_verdict::handler(ctx, passed)
+    }
 }
