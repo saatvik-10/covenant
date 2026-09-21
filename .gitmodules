@@ -1,0 +1,6 @@
+[submodule "covenant/contracts/lib/LayerZero-v2"]
+	path = covenant/contracts/lib/LayerZero-v2
+	url = https://github.com/LayerZero-Labs/LayerZero-v2
+[submodule "covenant/contracts/lib/openzeppelin-contracts"]
+	path = covenant/contracts/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
