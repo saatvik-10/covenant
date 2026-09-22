@@ -66,7 +66,7 @@ contract CovenantVerifier is OApp, OAppOptionsType3 {
         bytes32 constraintHash,
         address executor,
         uint256 maxNetExposureUsd,
-        bytes calldata options
+        bytes calldata extraOptions
     ) external payable returns (bool passed) {
         uint256 shortSizeUsd;
         (shortSizeUsd, passed) = checkPosition(executor, maxNetExposureUsd);
@@ -74,6 +74,7 @@ contract CovenantVerifier is OApp, OAppOptionsType3 {
         emit VerdictComputed(userPubkey, constraintHash, executor, shortSizeUsd, passed);
 
         bytes memory payload = abi.encode(userPubkey, constraintHash, passed);
+        bytes memory options = combineOptions(solanaEid, 1, extraOptions);
 
         _lzSend(
             solanaEid,
@@ -86,17 +87,16 @@ contract CovenantVerifier is OApp, OAppOptionsType3 {
         emit VerdictSent(userPubkey, constraintHash, passed);
     }
 
-    /// @notice Quote the LZ fee before calling checkAndSend, so the caller
-    /// knows exactly how much msg.value to attach.
     function quoteSend(
         bytes32 userPubkey,
         bytes32 constraintHash,
         bool passed,
-        bytes calldata options
+        bytes calldata extraOptions
     ) external view returns (MessagingFee memory fee) {
         bytes memory payload = abi.encode(userPubkey, constraintHash, passed);
+        bytes memory options = combineOptions(solanaEid, 1, extraOptions);
         fee = _quote(solanaEid, payload, options, false);
-    }
+}
 
     /// @dev Required by OApp — this contract doesn't receive messages, only sends.
     function _lzReceive(
