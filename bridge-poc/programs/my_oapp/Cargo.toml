@@ -14,9 +14,10 @@ no-idl = []
 no-log-ix-name = []
 cpi = ["no-entrypoint"]
 default = []
-idl-build = ["oapp/idl-build"]
+idl-build = ["oapp/idl-build", "covenant/idl-build"]
 
 [dependencies]
 anchor-lang = { version = "0.31.1", features = ["init-if-needed"] }
 solana-helper = "0.1.0"
 oapp = { package = "oapp-latest", git = "https://github.com/LayerZero-Labs/LayerZero-v2.git", rev = "c09287a" }
+covenant = { path = "../../../covenant/programs/covenant", features = ["cpi"] }

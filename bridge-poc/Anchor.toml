@@ -5,8 +5,8 @@ anchor_version = "0.31.1"
 resolution = false
 skip-lint = false
 
-[programs.localnet]
-my_oapp = "3J5ob7pDkqwyavYe9miQDTgzaxN9YMJTdJM5hWxoYSQr"
+[programs.devnet]
+my_oapp = "8mKHUrjDP45py3vPY5DCejT3T7FxSHCpsGBVsSDaNfeG"
 
 [registry]
 url = "https://api.apr.dev"
