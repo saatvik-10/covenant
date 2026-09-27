@@ -73,7 +73,7 @@ contract CovenantVerifier is OApp, OAppOptionsType3 {
 
         emit VerdictComputed(userPubkey, constraintHash, executor, shortSizeUsd, passed);
 
-        bytes memory payload = abi.encode(userPubkey, constraintHash, passed);
+        bytes memory payload = abi.encodePacked(userPubkey, constraintHash, passed);
         bytes memory options = combineOptions(solanaEid, 1, extraOptions);
 
         _lzSend(
