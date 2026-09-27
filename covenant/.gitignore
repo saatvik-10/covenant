@@ -3,3 +3,4 @@ node_modules
 *.json
 target/
 .anchor/
+todo.txt
