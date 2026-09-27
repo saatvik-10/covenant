@@ -11,25 +11,35 @@ import * as fs from "fs";
 import * as crypto from "crypto";
 import * as os from "os";
 
-const PROGRAM_ID = new PublicKey("Cb5yZqPKS9utNAf6LB3Cb4r36tMHpKtaY8LeNjtkwRAi");
-const RPC_URL = "https://devnet.helius-rpc.com/?api-key=a59d300b-8279-4423-a74d-d611f8f721c0";
+const PROGRAM_ID = new PublicKey(
+  "Cb5yZqPKS9utNAf6LB3Cb4r36tMHpKtaY8LeNjtkwRAi"
+);
+const RPC_URL =
+  "https://devnet.helius-rpc.com/?api-key=a59d300b-8279-4423-a74d-d611f8f721c0";
 
 const STATUS = ["Open", "Accepted", "Settled"] as const;
 
 // Anchor's instruction discriminator: first 8 bytes of sha256("global:<ix_name>")
 function discriminator(ixName: string): Buffer {
-  return crypto.createHash("sha256").update(`global:${ixName}`).digest().subarray(0, 8);
+  return crypto
+    .createHash("sha256")
+    .update(`global:${ixName}`)
+    .digest()
+    .subarray(0, 8);
 }
 
 function loadKeypair(path: string): Keypair {
-  const secret = JSON.parse(fs.readFileSync(path.replace("~", os.homedir()), "utf8"));
+  const secret = JSON.parse(
+    fs.readFileSync(path.replace("~", os.homedir()), "utf8")
+  );
   return Keypair.fromSecretKey(Uint8Array.from(secret));
 }
 
 function parseConstraintHash(arg: string | undefined): Buffer {
   if (!arg) return Buffer.alloc(32, 1);
   const hex = arg.startsWith("0x") || arg.startsWith("0X") ? arg.slice(2) : arg;
-  if (/^[0-9a-fA-F]{1,2}$/.test(hex)) return Buffer.alloc(32, parseInt(hex, 16));
+  if (/^[0-9a-fA-F]{1,2}$/.test(hex))
+    return Buffer.alloc(32, parseInt(hex, 16));
   if (/^[0-9a-fA-F]{64}$/.test(hex)) return Buffer.from(hex, "hex");
   throw new Error(
     `Invalid constraint hash "${arg}". Pass a single byte 0-255 (e.g. 2), ` +
@@ -71,7 +81,9 @@ async function main() {
   const user = loadKeypair("~/.config/solana/id.json");
 
   // Fixed, known constraint hash — reuse this exact value on the Arbitrum side
-  const constraintHash = parseConstraintHash(process.argv[2] ?? process.env.COVENANT_HASH);
+  const constraintHash = parseConstraintHash(
+    process.argv[2] ?? process.env.COVENANT_HASH
+  );
   const compensationCapAmount = 500_000_000n;
 
   const [covenantPda] = PublicKey.findProgramAddressSync(
@@ -85,10 +97,14 @@ async function main() {
 
   const existing = await connection.getAccountInfo(covenantPda);
   if (existing) {
-    console.log("\nCovenant already exists for this (user, constraint hash) pair.");
+    console.log(
+      "\nCovenant already exists for this (user, constraint hash) pair."
+    );
     console.log("Reuse this exact constraint hash on the Arbitrum side:\n");
     printCovenant(covenantPda, existing);
-    console.log("\nTo create another one, pass a different byte: npx tsx scripts/create-test-covenant.ts 2");
+    console.log(
+      "\nTo create another one, pass a different byte: npx tsx scripts/create-test-covenant.ts 2"
+    );
     return;
   }
 
