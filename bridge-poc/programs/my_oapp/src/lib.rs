@@ -19,7 +19,7 @@ use state::*;
 // MYOAPP_ID=$PROGRAM_ID anchor build 
 declare_id!(anchor_lang::solana_program::pubkey::Pubkey::new_from_array(program_id_from_env!(
     "MYOAPP_ID",
-    "3J5ob7pDkqwyavYe9miQDTgzaxN9YMJTdJM5hWxoYSQr" // It's not necessary to change the ID here if you are building using environment variable
+    "8mKHUrjDP45py3vPY5DCejT3T7FxSHCpsGBVsSDaNfeG" // It's not necessary to change the ID here if you are building using environment variable
 )));
 
 const LZ_RECEIVE_TYPES_SEED: &[u8] = b"LzReceiveTypes"; // The Executor relies on this exact seed to derive the LzReceiveTypes PDA. Keep it the same.
