@@ -54,7 +54,7 @@ pub fn handler(ctx: Context<SettleCovenant>) -> Result<()> {
     if verdict {
         token::transfer(
             CpiContext::new_with_signer(
-                ctx.accounts.token_program.key(),
+                ctx.accounts.token_program.to_account_info(),
                 Transfer {
                     from: ctx.accounts.collateral_vault.to_account_info(),
                     to: ctx.accounts.executor_token_account.to_account_info(),
@@ -71,7 +71,7 @@ pub fn handler(ctx: Context<SettleCovenant>) -> Result<()> {
         if compensation > 0 {
             token::transfer(
                 CpiContext::new_with_signer(
-                    ctx.accounts.token_program.key(),
+                    ctx.accounts.token_program.to_account_info(),
                     Transfer {
                         from: ctx.accounts.collateral_vault.to_account_info(),
                         to: ctx.accounts.user_token_account.to_account_info(),
@@ -85,7 +85,7 @@ pub fn handler(ctx: Context<SettleCovenant>) -> Result<()> {
         if remainder > 0 {
             token::transfer(
                 CpiContext::new_with_signer(
-                    ctx.accounts.token_program.key(),
+                    ctx.accounts.token_program.to_account_info(),
                     Transfer {
                         from: ctx.accounts.collateral_vault.to_account_info(),
                         to: ctx.accounts.executor_token_account.to_account_info(),

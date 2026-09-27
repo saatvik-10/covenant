@@ -42,7 +42,7 @@ pub struct AcceptCovenant<'info> {
 pub fn handler(ctx: Context<AcceptCovenant>, collateral_amount: u64) -> Result<()> {
     token::transfer(
         CpiContext::new(
-            ctx.accounts.token_program.key(),
+            ctx.accounts.token_program.to_account_info(),
             Transfer {
                 from: ctx.accounts.executor_token_account.to_account_info(),
                 to: ctx.accounts.collateral_vault.to_account_info(),
