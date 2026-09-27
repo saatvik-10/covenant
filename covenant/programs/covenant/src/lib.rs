@@ -2,11 +2,12 @@ use anchor_lang::prelude::*;
 
 mod errors;
 mod instructions;
-mod state;
+pub mod state;
+pub use state::Covenant;
 
 use instructions::*;
 
-declare_id!("BasyCwQqrLFVAXPrcL6LNE2t1YLxVRM4tM5ZnRAAhFUs");
+declare_id!("Cb5yZqPKS9utNAf6LB3Cb4r36tMHpKtaY8LeNjtkwRAi");
 
 #[program]
 pub mod covenant {
@@ -25,8 +26,13 @@ pub mod covenant {
         instructions::accept::handler(ctx, collateral_amount)
     }
 
-    pub fn receive_verdict(ctx: Context<ReceiveVerdict>, passed: bool) -> Result<()> {
-        instructions::receive_verdict::handler(ctx, passed)
+    pub fn receive_verdict(
+        ctx: Context<ReceiveVerdict>,
+        user_pubkey: Pubkey,
+        constraint_hash: [u8; 32],
+        passed: bool,
+    ) -> Result<()> {
+        instructions::receive_verdict::handler(ctx, user_pubkey, constraint_hash, passed)
     }
 
     pub fn settle(ctx: Context<SettleCovenant>) -> Result<()> {
