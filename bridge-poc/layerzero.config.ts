@@ -8,6 +8,7 @@ import { getSolanaOAppAddress } from './tasks/solana'
 const arbitrumContract: OmniPointHardhat = {
     eid: EndpointId.ARBSEP_V2_TESTNET,
     contractName: 'CovenantVerifier',
+    address: '0xFeB7204dc23609623bF1C0A09fccF3F625d3ACfc',
 }
 
 const solanaContract: OmniPointHardhat = {
