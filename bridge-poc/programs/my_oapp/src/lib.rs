@@ -26,6 +26,10 @@ const LZ_RECEIVE_TYPES_SEED: &[u8] = b"LzReceiveTypes"; // The Executor relies o
 const STORE_SEED: &[u8] = b"Store"; // You are free to edit this seed.
 const PEER_SEED: &[u8] = b"Peer"; // Not used by the Executor.
 
+// Cross-chain message layout: [32] user | [32] constraint_hash | [1] passed.
+// Must match the Arbitrum-side encoder in CovenantVerifier.sol.
+pub const COVENANT_MESSAGE_LEN: usize = 65;
+
 #[program]
 pub mod my_oapp {
     use super::*;

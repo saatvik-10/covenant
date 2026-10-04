@@ -1,6 +1,7 @@
 use crate::*;
 
 use anchor_lang::solana_program;
+use errors::CovenantBridgeError;
 use oapp::{
     common::{
         compact_accounts_with_alts, AccountMetaRef, AddressLocator, EXECUTION_CONTEXT_VERSION_1,
@@ -43,6 +44,21 @@ impl LzReceiveTypesV2<'_> {
             // peer
             AccountMetaRef { pubkey: peer.into(), is_writable: false }
         ];
+
+        // covenant (writable) + covenant_program, derived from the same message
+        // preimage the LzReceive handler parses, so the two derivations agree.
+        require!(
+            params.message.len() == COVENANT_MESSAGE_LEN,
+            CovenantBridgeError::InvalidMessageLength
+        );
+        let covenant_user = Pubkey::new_from_array(<[u8; 32]>::try_from(&params.message[0..32]).unwrap());
+        let covenant_hash: [u8; 32] = params.message[32..64].try_into().unwrap();
+        let (covenant, _) = Pubkey::find_program_address(
+            &[b"covenant", covenant_user.as_ref(), covenant_hash.as_ref()],
+            &covenant::ID,
+        );
+        accounts.push(AccountMetaRef { pubkey: covenant.into(), is_writable: true });
+        accounts.push(AccountMetaRef { pubkey: covenant::ID.into(), is_writable: false });
 
         // Add accounts required for LayerZero's clear operation
         // These accounts handle the core message verification and processing

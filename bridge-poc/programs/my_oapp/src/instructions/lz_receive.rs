@@ -8,6 +8,7 @@ use oapp::{
     },
     LzReceiveParams,
 };
+use errors::CovenantBridgeError;
 
 #[derive(Accounts)]
 #[instruction(params: LzReceiveParams)]
@@ -25,13 +26,19 @@ pub struct LzReceive<'info> {
         bump = peer.bump,
         constraint = params.sender == peer.peer_address
     )]
-    pub peer: Account<'info, PeerConfig>
+    pub peer: Account<'info, PeerConfig>,
+
+    #[account(mut)]
+    pub covenant: Account<'info, covenant::Covenant>,
+
+    pub covenant_program: Program<'info, covenant::program::Covenant>,
 }
 
 impl LzReceive<'_> {
     pub fn apply(ctx: &mut Context<LzReceive>, params: &LzReceiveParams) -> Result<()> {
         // The OApp Store PDA is used to sign the CPI to the Endpoint program.
         let seeds: &[&[u8]] = &[STORE_SEED, &[ctx.accounts.store.bump]];
+        let signer_seeds: &[&[&[u8]]] = &[seeds];
 
         // The first Clear::MIN_ACCOUNTS_LEN accounts were returned by
         // `lz_receive_types` and are required for Endpoint::clear
@@ -55,9 +62,37 @@ impl LzReceive<'_> {
         )?;
 
         // From here on, you can process the message as needed by your use case.
-        let string_value = msg_codec::decode(&params.message)?;
-        let store = &mut ctx.accounts.store;
-        store.string = string_value;
+        require!(params.message.len() == COVENANT_MESSAGE_LEN, CovenantBridgeError::InvalidMessageLength);
+
+        let user_pubkey = Pubkey::try_from(&params.message[0..32]).unwrap();
+        let mut constraint_hash = [0u8; 32];
+        constraint_hash.copy_from_slice(&params.message[32..64]);
+        let passed = params.message[64] != 0;
+
+        // Manually verify the covenant account matches the derived PDA —
+        // can't use a `seeds = [...]` constraint since these values only
+        // exist after decoding the message.
+        let (expected_covenant, _bump) = Pubkey::find_program_address(
+            &[b"covenant", user_pubkey.as_ref(), constraint_hash.as_ref()],
+            &covenant::ID,
+        );
+        require_keys_eq!(
+            ctx.accounts.covenant.key(),
+            expected_covenant,
+            CovenantBridgeError::WrongCovenant
+        );
+
+        // CPI into covenant::receive_verdict, signed by this Store PDA
+        let cpi_accounts = covenant::cpi::accounts::ReceiveVerdict {
+            oapp_authority: ctx.accounts.store.to_account_info(),
+            covenant: ctx.accounts.covenant.to_account_info(),
+        };
+        let cpi_ctx = CpiContext::new_with_signer(
+            ctx.accounts.covenant_program.to_account_info(),
+            cpi_accounts,
+            signer_seeds,
+        );
+        covenant::cpi::receive_verdict(cpi_ctx, user_pubkey, constraint_hash, passed)?;
 
         // You can add logic here to handle compose if the message contains a compose message
 
