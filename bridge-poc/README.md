@@ -33,7 +33,7 @@ For a more thorough walkthrough of how a Solana OApp works, refer to [Solana OAp
 
 ## Setup
 
-We recommend using `pnpm` as a package manager (but you can of course use a package manager of your choice).
+This project uses `bun` as its package manager (all install/compile/test commands below are run with bun).
 
 [Docker](https://docs.docker.com/get-started/get-docker/) is required to build using anchor. We highly recommend that you use the most up-to-date Docker version to avoid any issues with anchor
 builds.
@@ -70,7 +70,7 @@ cargo install --git https://github.com/solana-foundation/anchor --tag v0.31.1 an
 LZ_ENABLE_SOLANA_OAPP_EXAMPLE=1 npx create-lz-oapp@latest
 ```
 
-The CLI will also automatically run pnpm install for you.
+The CLI will also automatically run pnpm install for you (this workspace has since been migrated to `bun install` — run that instead).
 
 Make sure you select the **OApp (Solana)** example from the dropdown:
 
@@ -97,7 +97,7 @@ examples/oapp-solana/
 ├── docs/                   # Additional guides (compose, ordered execution)
 ├── lib/                    # TypeScript client SDK and generated bindings
 │   ├── client/
-│   │   ├── generated/      # Auto-generated TypeScript files from Solana IDL (run `pnpm gen:api`)
+│   │   ├── generated/      # Auto-generated TypeScript files from Solana IDL (run `bun run gen:api`)
 │   │   └── myoapp.ts       # TypeScript client for interacting with the Solana OApp
 ├── programs/               # Grouping folder for Solana program
 │   └── my_oapp/            # Solana OApp program
@@ -112,7 +112,7 @@ examples/oapp-solana/
 - **contracts/**: Solidity contracts for the EVM side of the OApp (if applicable).
 - **deploy/**: Hardhat deploy scripts for EVM contracts.
 - **docs/**: Project-specific documentation, guides, and references.
-- **lib/client/generated/my_oapp**: TypeScript bindings generated from the Solana program's IDL. Regenerate after program changes with `pnpm gen:api`.
+- **lib/client/generated/my_oapp**: TypeScript bindings generated from the Solana program's IDL. Regenerate after program changes with `bun run gen:api`.
 - **lib/client/myoapp.ts**: Main TypeScript client for interacting with the Solana OApp.
 - **programs/my_oapp**: Anchor-based Solana program source code.
 - **tasks/**: Custom Hardhat tasks for deployment, configuration, and wiring.
@@ -125,7 +125,7 @@ examples/oapp-solana/
 To compile the Solidity OApp contract and build the Solana OApp program, run:
 
 ```bash
-pnpm compile
+bun run compile
 ```
 
 #### Get Devnet SOL
@@ -324,7 +324,7 @@ After sending cross-chain messages you can inspect the stored string on either s
 The `test` command will execute the hardhat and forge tests:
 
 ```bash
-pnpm test
+bun run test
 ```
 
 <br></br>
@@ -342,7 +342,7 @@ First, ensure you have built the program after making the necessary updates, to 
 Next, run:
 
 ```bash
-pnpm gen:api
+bun run gen:api
 ```
 
 This will update the files under `lib/client/generated/my_oapp` which is used by `lib/client/myoapp.ts`, which you will also need to adapt to your updated program.
