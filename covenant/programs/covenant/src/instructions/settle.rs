@@ -1,3 +1,4 @@
+use crate::constants::COLLATERAL_MINT;
 use crate::errors::CovenantError;
 use crate::state::{Covenant, CovenantStatus};
 use anchor_lang::prelude::*;
@@ -13,6 +14,9 @@ pub struct SettleCovenant<'info> {
     )]
     pub covenant: Account<'info, Covenant>,
 
+    #[account(
+        address = COLLATERAL_MINT @ CovenantError::WrongMint,
+    )]
     pub collateral_mint: Account<'info, Mint>,
 
     #[account(
@@ -22,10 +26,18 @@ pub struct SettleCovenant<'info> {
     )]
     pub collateral_vault: Account<'info, TokenAccount>,
 
-    #[account(mut)]
+    #[account(
+        mut,
+        associated_token::mint = collateral_mint,
+        associated_token::authority = covenant.executor,
+    )]
     pub executor_token_account: Account<'info, TokenAccount>,
 
-    #[account(mut)]
+    #[account(
+        mut,
+        associated_token::mint = collateral_mint,
+        associated_token::authority = covenant.user,
+    )]
     pub user_token_account: Account<'info, TokenAccount>,
 
     pub token_program: Program<'info, Token>,

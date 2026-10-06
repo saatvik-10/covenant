@@ -1,3 +1,4 @@
+use crate::constants::COLLATERAL_MINT;
 use crate::errors::CovenantError;
 use crate::state::{Covenant, CovenantStatus};
 use anchor_lang::prelude::*;
@@ -17,6 +18,9 @@ pub struct AcceptCovenant<'info> {
     )]
     pub covenant: Account<'info, Covenant>,
 
+    #[account(
+        address = COLLATERAL_MINT @ CovenantError::WrongMint,
+    )]
     pub collateral_mint: Account<'info, Mint>,
 
     #[account(
@@ -40,6 +44,12 @@ pub struct AcceptCovenant<'info> {
 }
 
 pub fn handler(ctx: Context<AcceptCovenant>, collateral_amount: u64) -> Result<()> {
+    let clock = Clock::get()?;
+    require!(
+        clock.unix_timestamp <= ctx.accounts.covenant.deadline,
+        CovenantError::DeadlinePassed
+    );
+
     token::transfer(
         CpiContext::new(
             ctx.accounts.token_program.to_account_info(),

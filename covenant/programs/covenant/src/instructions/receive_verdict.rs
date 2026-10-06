@@ -1,3 +1,4 @@
+use crate::constants::STORE_PDA;
 use crate::errors::CovenantError;
 use crate::state::{Covenant, CovenantStatus};
 use anchor_lang::prelude::*;
@@ -5,7 +6,8 @@ use anchor_lang::prelude::*;
 #[derive(Accounts)]
 #[instruction(user_pubkey: Pubkey, constraint_hash: [u8; 32])]
 pub struct ReceiveVerdict<'info> {
-     pub oapp_authority: Signer<'info>,
+    #[account(address = STORE_PDA @ CovenantError::UnauthorizedOapp)]
+    pub oapp_authority: Signer<'info>,
 
     #[account(
         mut,
