@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+/* Colosseum palette — travertine, ink, oxblood, verdigris, bronze.
+   Deliberately mineral and light: not the default dark-neon crypto UI. */
+@theme {
+  --color-travertine: #efe7da;
+  --color-travertine-deep: #e4dac8;
+  --color-travertine-hi: #f7f2e8;
+  --color-rule: #c9bca6;
+  --color-ink: #17130f;
+  --color-ink-soft: #574c41;
+  --color-oxblood: #6e1f1a;
+  --color-oxblood-hi: #9b2f26;
+  --color-verdigris: #2c6a57;
+  --color-verdigris-hi: #3d9077;
+  --color-bronze: #9a6b29;
+  --color-bronze-hi: #c08a34;
+
+  --font-display: "Bodoni 72", "Didot", "Playfair Display", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+@layer base {
+  html {
+    background: var(--color-travertine);
+    color: var(--color-ink);
+  }
+  body {
+    font-family: var(--font-mono);
+    /* travertine grain: two hairline gradients, no images */
+    background-image:
+      repeating-linear-gradient(
+        90deg,
+        rgb(23 19 15 / 0.035) 0 1px,
+        transparent 1px 7px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        rgb(23 19 15 / 0.02) 0 1px,
+        transparent 1px 3px
+      );
+  }
+  ::selection {
+    background: var(--color-bronze-hi);
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-bronze);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* ledger row with a dotted leader between label and value */
+  .leader {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0.25rem 0;
+    border-bottom: 1px dotted var(--color-rule);
+  }
+  .leader > .k {
+    color: var(--color-ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.68rem;
+    white-space: nowrap;
+  }
+  .leader > .dots {
+    flex: 1;
+    border-bottom: 1px dotted var(--color-rule);
+    transform: translateY(-0.2em);
+  }
+  .leader > .v {
+    font-variant-numeric: tabular-nums;
+    font-size: 0.9rem;
+  }
+
+  /* carved field: a rule-underlined input, not a rounded box */
+  .carved {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid var(--color-ink);
+    padding: 0.5rem 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--color-ink);
+  }
+  .carved:focus {
+    outline: none;
+    border-bottom: 2px solid var(--color-bronze-hi);
+    box-shadow: 0 0 0 3px var(--color-bronze-hi)/20;
+  }
+
+  /* stage numeral — huge, outlined, hangs off the rail */
+  .numeral {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 0.8;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--color-rule);
+  }
+  .numeral[data-live="true"] {
+    -webkit-text-stroke-color: var(--color-bronze);
+  }
+
+  .band {
+    border-top: 3px solid var(--color-ink);
+    border-bottom: 3px solid var(--color-ink);
+    padding: 1.5rem 1.25rem;
+  }
+  .band[data-state="pass"] {
+    background: var(--color-verdigris);
+    color: var(--color-travertine-hi);
+  }
+  .band[data-state="fail"] {
+    background: var(--color-oxblood);
+    color: var(--color-travertine-hi);
+  }
+}
