@@ -1,0 +1,18 @@
+{
+  "name": "covenant-executor",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "bun run src/bot.ts",
+    "once": "bun run src/bot.ts --once",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.98.0",
+    "ethers": "^5.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "typescript": "~5.7.3"
+  }
+}
