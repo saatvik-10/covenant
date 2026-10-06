@@ -4,3 +4,13 @@ node_modules
 target/
 .anchor/
 todo.txt
+# source manifests & tsconfigs must be committable despite *.json above
+!app/package.json
+!app/tsconfig.json
+!app/tsconfig.app.json
+!app/tsconfig.node.json
+!app/.oxlintrc.json
+!executor/package.json
+!executor/tsconfig.json
+!programs/covenant/package.json
+!programs/covenant/tsconfig.json

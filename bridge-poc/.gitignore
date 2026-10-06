@@ -12,6 +12,9 @@ target/sbf-solana-solana
 buffer.json
 .anchor
 
+# self-DVN ed25519 secret key (used by scripts/self-dvn.mjs) — never commit
+scripts/.dvn.json
+
 # Hardhat files
 cache
 artifacts
