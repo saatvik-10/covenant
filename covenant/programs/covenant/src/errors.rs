@@ -25,4 +25,10 @@ pub enum CovenantError {
 
     #[msg("Constraint hash does not match")]
     ConstraintHashMismatch,
+
+    #[msg("Caller is not the authorized OApp store")]
+    UnauthorizedOapp,
+
+    #[msg("Unexpected collateral mint")]
+    WrongMint,
 }
