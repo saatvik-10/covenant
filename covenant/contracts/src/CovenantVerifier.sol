@@ -93,7 +93,7 @@ contract CovenantVerifier is OApp, OAppOptionsType3 {
         bool passed,
         bytes calldata extraOptions
     ) external view returns (MessagingFee memory fee) {
-        bytes memory payload = abi.encode(userPubkey, constraintHash, passed);
+        bytes memory payload = abi.encodePacked(userPubkey, constraintHash, passed);
         bytes memory options = combineOptions(solanaEid, 1, extraOptions);
         fee = _quote(solanaEid, payload, options, false);
 }
