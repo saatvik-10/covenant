@@ -31,7 +31,7 @@ export default function App() {
           </div>
 
           <div
-            className="flex items-center gap-2 text-[0.68rem] uppercase tracking-[0.2em]"
+            className="flex min-w-0 flex-wrap items-center gap-2 text-[0.68rem] uppercase tracking-[0.2em]"
             role="group"
             aria-label="Recorded run"
           >

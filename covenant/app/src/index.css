@@ -54,6 +54,7 @@
   /* ledger row with a dotted leader between label and value */
   .leader {
     display: flex;
+    min-width: 0;
     align-items: baseline;
     gap: 0.5rem;
     padding: 0.25rem 0;
@@ -68,12 +69,46 @@
   }
   .leader > .dots {
     flex: 1;
+    min-width: 0;
     border-bottom: 1px dotted var(--color-rule);
     transform: translateY(-0.2em);
   }
   .leader > .v {
+    min-width: 0;
+    max-width: 62%;
     font-variant-numeric: tabular-nums;
     font-size: 0.9rem;
+    overflow-wrap: anywhere;
+    text-align: right;
+  }
+
+  .leader > .v a {
+    overflow-wrap: anywhere;
+  }
+
+  .leader > .v a:hover,
+  .leader > .v a:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 640px) {
+    .leader {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+      align-items: start;
+      gap: 0.25rem 0.5rem;
+    }
+    .leader > .k {
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+    .leader > .dots {
+      display: none;
+    }
+    .leader > .v {
+      max-width: 100%;
+    }
   }
 
   /* carved field: a rule-underlined input, not a rounded box */

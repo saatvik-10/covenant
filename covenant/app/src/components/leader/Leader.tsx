@@ -15,7 +15,7 @@ export function LeaderJSX({ k, vJSX }: { k: string; vJSX: ReactNode }) {
     <div className="leader">
       <span className="k">{k}</span>
       <span className="dots" aria-hidden="true" />
-      {vJSX}
+      <span className="v">{vJSX}</span>
     </div>
   );
 }

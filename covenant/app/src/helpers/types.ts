@@ -12,8 +12,8 @@ export type ScenarioData = {
   constraint: string;
   bond: number;
   cap: number;
-  positionUsd: number;
-  thresholdUsd: number;
+  positionUsd: string;
+  thresholdUsd: string;
   positionNote: string;
   verdict: boolean;
   splitNote: string;
@@ -41,8 +41,8 @@ export const PASS: ScenarioData = {
   constraint: "0909…0909",
   bond: 1000,
   cap: 500,
-  positionUsd: 10000000000000000000000000000000000,
-  thresholdUsd: 5000000000000000000000000,
+  positionUsd: "10000000000000000000000000000000000",
+  thresholdUsd: "5000000000000000000000000",
   positionNote: "GMX short opened before the verdict — sizeInUsd 1e34 >= threshold 5e24",
   verdict: true,
   splitNote: "Bond released to the executor in full. The user's covenant cost nothing to keep.",
@@ -75,8 +75,8 @@ export const FAIL: ScenarioData = {
   constraint: "0808…0808",
   bond: 500,
   cap: 500,
-  positionUsd: 0,
-  thresholdUsd: 500000000000000000000000,
+  positionUsd: "0",
+  thresholdUsd: "500000000000000000000000",
   positionNote: "No GMX order was ever submitted — position below threshold 5e23",
   verdict: false,
   splitNote:
