@@ -50,7 +50,7 @@ export default function App() {
                     : "bg-transparent text-ink hover:bg-travertine-deep/30 outline outline-none"
                 }`}
               >
-                {id === "pass" ? "Run A · HEDGED" : "Run B · UNDER-HEDGED"}
+                {id === "pass" ? "Run A · HEDGED" : "Run B · UNHEDGED"}
               </button>
             ))}
           </div>
