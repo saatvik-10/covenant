@@ -1,5 +1,18 @@
 import type { ScenarioData } from "../../helpers/types";
-import { Leader } from "../leader/Leader";
+import { Leader, LeaderJSX } from "../leader/Leader";
+
+function solExplorer(sig: string) {
+  return `https://explorer.solana.com/tx/${sig}?cluster=devnet`;
+}
+function arbExplorer(sig: string) {
+  return `https://sepolia.arbiscan.io/tx/${sig}`;
+}
+
+function txLink(k: string, v: string) {
+  if (k.includes("Solana")) return <a href={solExplorer(v)} target="_blank" rel="noopener">{v}</a>;
+  if (k.includes("Arbitrum")) return <a href={arbExplorer(v)} target="_blank" rel="noopener">{v}</a>;
+  return v;
+}
 
 export function ResultScreen({ s }: { s: ScenarioData }) {
   const state = s.verdict ? "pass" : "fail";
@@ -35,7 +48,7 @@ export function ResultScreen({ s }: { s: ScenarioData }) {
           Transaction record
         </p>
         {s.txs.map((row) => (
-          <Leader key={row.k} k={row.k} v={row.v} />
+          <LeaderJSX key={row.k} k={row.k} vJSX={txLink(row.k, row.v)} />
         ))}
       </div>
     </section>
