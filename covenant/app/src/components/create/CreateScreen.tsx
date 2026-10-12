@@ -6,7 +6,7 @@ export function CreateScreen({ onCommit }: { onCommit: (c: CommitPayload) => voi
   const [hash, setHash] = useState(
     "0x0909090909090909090909090909090909090909090909090909090909090909",
   );
-  const [cap, setCap] = useState(1000);
+  const [cap, setCap] = useState(500);
   const [deadline, setDeadline] = useState(604800);
 
   return (
@@ -75,7 +75,7 @@ export function CreateScreen({ onCommit }: { onCommit: (c: CommitPayload) => voi
           type="submit"
           className="w-full border-2 border-ink bg-ink px-6 py-4 font-display text-2xl text-travertine-hi transition-colors duration-150 hover:bg-oxblood hover:border-oxblood cursor-pointer"
         >
-          Sign and go live →
+          Open recorded run →
         </button>
       </form>
     </section>
