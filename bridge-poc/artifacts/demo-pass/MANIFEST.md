@@ -1,6 +1,6 @@
 # Demo-PASS artifacts — constraint byte 0x09 — 2026-10-03
 
-Claim under test: executor holds a real GMX short (sizeInUsd=1e34 >= 5e33
+Claim under test: executor holds a real GMX short (sizeInUsd=1e34 >= 5e24
 threshold) -> verdict PASS -> settlement returns the whole bond to the executor.
 
 ## Step 1 — open the real GMX short (logs: step1-open-short-final.log, .json)

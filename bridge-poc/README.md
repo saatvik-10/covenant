@@ -348,3 +348,4 @@ bun run gen:api
 This will update the files under `lib/client/generated/my_oapp` which is used by `lib/client/myoapp.ts`, which you will also need to adapt to your updated program.
 
 For guidance, read the [Solana OApp Reference](https://docs.layerzero.network/v2/developers/solana/oapp/overview).
+
